@@ -2,9 +2,6 @@
 
 #include "Hazel/Core.h"
 
-#include <string>
-#include <functional>
-
 namespace Hazel {
 
 	// 当前事件都为阻塞，当事件触发时，立刻执行订阅函数
