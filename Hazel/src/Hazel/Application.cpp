@@ -2,10 +2,9 @@
 #include "Application.h"
 #include "Hazel/Events/ApplicationEvent.h"
 
-#include "glad/glad.h"
+#include <glad/glad.h>
 
 namespace Hazel {
-#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
 	Application* Application::s_instance = nullptr;
 
@@ -15,7 +14,7 @@ namespace Hazel {
 		s_instance = this;
 
 		m_window = std::unique_ptr<Window>(Window::Create());
-		m_window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+		m_window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
 	}
 
 	Application::~Application() { }
@@ -35,9 +34,8 @@ namespace Hazel {
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
 
-		// HZ_CORE_TRACE("{0}", e);
 		for (auto it = m_layerStack.end(); it != m_layerStack.begin();)
 		{
 			(*--it)->OnEvent(e);
