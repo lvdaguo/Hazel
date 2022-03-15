@@ -17,6 +17,7 @@ namespace Hazel {
 		inline unsigned int GetHeight() const override { return m_data.Height; }
 
 		inline void SetEventCallback(const EventCallbackFn& callback) override { m_data.EventCallback = callback; }
+		
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 

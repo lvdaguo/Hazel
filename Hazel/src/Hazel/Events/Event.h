@@ -63,8 +63,8 @@ namespace Hazel {
 		{
 			if (m_event.GetEventType() == T::GetStaticType())
 			{
-				// 向下转换
-				m_Event.m_handled = func(*(T*)&m_event);
+				// 向下转换event， 调用func
+				m_event.m_handled = func(*(T*)&m_event);
 				return true;
 			}
 			return false;

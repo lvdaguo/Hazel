@@ -3,6 +3,8 @@
 #include "Core.h"
 #include "Window.h"
 
+#include "Hazel/Events/ApplicationEvent.h"
+
 namespace Hazel {
 	class HAZEL_API Application
 	{
@@ -13,6 +15,9 @@ namespace Hazel {
 		void Run();
 
 	private:
+		void OnEvent(Event& e);
+		bool OnWindowClose(WindowCloseEvent& e);
+		
 		std::unique_ptr<Window> m_window;
 		bool m_running = true;
 	};
