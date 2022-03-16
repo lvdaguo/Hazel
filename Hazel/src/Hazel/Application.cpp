@@ -14,6 +14,8 @@ namespace Hazel {
 		s_instance = this;
 
 		m_window = std::unique_ptr<Window>(Window::Create());
+
+		// 接收窗口发送的事件
 		m_window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
 	}
 
@@ -33,14 +35,18 @@ namespace Hazel {
 
 	void Application::OnEvent(Event& e)
 	{
+		// 响应窗口关闭事件
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
 
+		// 传递事件给layers
 		for (auto it = m_layerStack.end(); it != m_layerStack.begin();)
 		{
 			(*--it)->OnEvent(e);
 			if (e.IsHandled())
+			{
 				break;
+			}
 		}
 	}
 

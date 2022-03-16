@@ -3,6 +3,7 @@
 #include "Hazel/Input.h"
 
 namespace Hazel {
+	// Input单例的Windows实现
 	class WindowsInput : public Input
 	{
 	protected:

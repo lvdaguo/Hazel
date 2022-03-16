@@ -32,6 +32,7 @@ namespace Hazel {
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
+	// 事件抽象基类
 	class HAZEL_API Event
 	{
 		friend class EventDispatcher;
@@ -75,6 +76,7 @@ namespace Hazel {
 		Event& m_event;
 	};
 
+	// 使事件可以用Log打印出来
 	inline std::ostream& operator << (std::ostream& os, const Event& e)
 	{
 		return os << e.ToString();

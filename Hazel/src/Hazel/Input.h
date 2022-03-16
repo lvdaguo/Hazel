@@ -3,6 +3,10 @@
 #include "Hazel/Core.h"
 
 namespace Hazel {
+	/// <summary>
+	/// 静态类，轮询输入
+	/// 内部实现为单例
+	/// </summary>
 	class HAZEL_API Input
 	{
 	public:

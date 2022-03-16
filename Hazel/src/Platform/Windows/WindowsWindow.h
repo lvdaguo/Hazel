@@ -16,6 +16,7 @@ namespace Hazel {
 		inline unsigned int GetWidth() const override { return m_data.Width; }
 		inline unsigned int GetHeight() const override { return m_data.Height; }
 
+		// 订阅Window发送的事件的接口
 		inline void SetEventCallback(const EventCallbackFn& callback) override { m_data.EventCallback = callback; }
 		
 		void SetVSync(bool enabled) override;

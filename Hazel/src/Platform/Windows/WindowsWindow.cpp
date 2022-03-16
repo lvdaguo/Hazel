@@ -39,6 +39,7 @@ namespace Hazel {
 
 		static bool GLFWInitialized = false;
 
+		// Init GLFW
 		if (GLFWInitialized == false)
 		{
 			int success = glfwInit();
@@ -50,15 +51,18 @@ namespace Hazel {
 
 		HZ_CORE_INFO("Creating window {0}, ({1}, {2})\n", props.Title, props.Width, props.Height);
 
+		// Create Window
 		m_window = glfwCreateWindow(int(props.Width), int(props.Height), m_data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_window);
 
+		// Init Glad
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		HZ_CORE_ASSERT(status, "Failed to initialize Glad!");
 
 		glfwSetWindowUserPointer(m_window, &m_data);
 		SetVSync(true);
 
+		// 接收GLFW的回调函数，传递给窗口类事件的订阅者
 		glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);

@@ -16,6 +16,7 @@ namespace Hazel {
 			: Title(title), Width(width), Height(height) { }
 	};
 
+	// Window接口定义，根据不同操作系统选择不同的Window实现
 	class HAZEL_API Window
 	{
 	public:
