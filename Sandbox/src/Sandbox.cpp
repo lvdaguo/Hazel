@@ -1,4 +1,5 @@
 #include "Hazel.h"
+#include <glm/glm.hpp>
 
 class ExampleLayer : public Hazel::Layer
 {
