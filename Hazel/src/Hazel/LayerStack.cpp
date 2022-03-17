@@ -2,10 +2,7 @@
 #include "LayerStack.h"
 
 namespace Hazel {
-	LayerStack::LayerStack()
-	{
-		m_layerInsert = m_layers.begin();
-	}
+	LayerStack::LayerStack() { }
 
 	LayerStack::~LayerStack()
 	{
@@ -19,7 +16,8 @@ namespace Hazel {
 
 	void LayerStack::PushLayer(Layer* layer)
 	{
-		m_layerInsert = m_layers.emplace(m_layerInsert, layer);
+		m_layers.emplace(m_layers.begin() + m_layerInsertIndex, layer);
+		++m_layerInsertIndex;
 		layer->OnAttach();
 	}
 
@@ -35,7 +33,7 @@ namespace Hazel {
 		if (it != m_layers.end())
 		{
 			m_layers.erase(it);
-			--m_layerInsert;
+			--m_layerInsertIndex;
 		}
 		layer->OnDetach();
 	}

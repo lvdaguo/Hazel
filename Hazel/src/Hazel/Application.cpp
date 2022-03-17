@@ -17,6 +17,9 @@ namespace Hazel {
 
 		// 接收窗口发送的事件
 		m_window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
+	
+		m_imguiLayer = new ImGuiLayer();
+		PushOverlay(m_imguiLayer);
 	}
 
 	Application::~Application() { }
@@ -59,6 +62,13 @@ namespace Hazel {
 			{
 				layer->OnUpdate();
 			}
+
+			m_imguiLayer->Begin();
+			for (Layer* layer : m_layerStack)
+			{
+				layer->OnImGuiRender();
+			}
+			m_imguiLayer->End();
 
 			m_window->OnUpdate();
 		}

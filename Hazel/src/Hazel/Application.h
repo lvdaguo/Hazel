@@ -7,6 +7,8 @@
 #include "Hazel/Events/Event.h"
 #include "Hazel/Events/ApplicationEvent.h"
 
+#include "Hazel/ImGui/ImGuiLayer.h"
+
 // Application为单例，其持有的窗口对象也只有一个实例
 
 namespace Hazel {
@@ -29,6 +31,8 @@ namespace Hazel {
 		bool OnWindowClose(WindowCloseEvent& e);
 		
 		std::unique_ptr<Window> m_window;
+		ImGuiLayer* m_imguiLayer;
+
 		bool m_running = true;
 
 		LayerStack m_layerStack;
