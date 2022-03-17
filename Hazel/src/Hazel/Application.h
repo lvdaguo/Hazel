@@ -8,6 +8,7 @@
 #include "Hazel/Events/ApplicationEvent.h"
 
 #include "Hazel/ImGui/ImGuiLayer.h"
+#include "Hazel/Renderer/Buffer.h"
 #include "Hazel/Renderer/Shader.h"
 
 // Application为单例，其持有的窗口对象也只有一个实例
@@ -38,8 +39,10 @@ namespace Hazel {
 
 		LayerStack m_layerStack;
 
-		unsigned int m_vertexArray, m_vertexBuffer, m_indexBuffer;
+		unsigned int m_vertexArray;
 		std::unique_ptr<Shader> m_shader;
+		std::unique_ptr<VertexBuffer> m_vertexBuffer;
+		std::unique_ptr<IndexBuffer> m_indexBuffer;
 
 		static Application* s_instance;
 	};
