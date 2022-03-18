@@ -12,6 +12,8 @@
 #include "Hazel/Renderer/Shader.h"
 #include "Hazel/Renderer/VertexArray.h"
 
+#include "Hazel/Renderer/OrthographicCamera.h"
+
 // Application为单例，其持有的窗口对象也只有一个实例
 
 namespace Hazel {
@@ -45,6 +47,8 @@ namespace Hazel {
 
 		std::shared_ptr<Shader> m_blueShader;
 		std::shared_ptr<VertexArray> m_squareVA;
+
+		OrthographicCamera m_camera;
 
 		static Application* s_instance;
 	};
