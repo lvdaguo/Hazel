@@ -7,12 +7,8 @@
 #include "Hazel/Events/Event.h"
 #include "Hazel/Events/ApplicationEvent.h"
 
+#include "Hazel/Core/Timestep.h"
 #include "Hazel/ImGui/ImGuiLayer.h"
-#include "Hazel/Renderer/Buffer.h"
-#include "Hazel/Renderer/Shader.h"
-#include "Hazel/Renderer/VertexArray.h"
-
-#include "Hazel/Renderer/OrthographicCamera.h"
 
 // Application为单例，其持有的窗口对象也只有一个实例
 
@@ -42,13 +38,7 @@ namespace Hazel {
 
 		LayerStack m_layerStack;
 
-		std::shared_ptr<Shader> m_shader;
-		std::shared_ptr<VertexArray> m_vertexArray;
-
-		std::shared_ptr<Shader> m_blueShader;
-		std::shared_ptr<VertexArray> m_squareVA;
-
-		OrthographicCamera m_camera;
+		float m_lastFrameTime = 0.0f;
 
 		static Application* s_instance;
 	};
