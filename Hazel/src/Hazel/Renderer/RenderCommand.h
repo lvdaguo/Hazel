@@ -33,7 +33,7 @@ namespace Hazel {
 		}
 		
 	private:
-		static RendererAPI* s_rendererAPI;
+		static Scope<RendererAPI> s_rendererAPI;
 	};
 
 }

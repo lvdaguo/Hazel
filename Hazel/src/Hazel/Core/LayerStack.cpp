@@ -10,6 +10,7 @@ namespace Hazel {
 		// 应用结束时，删除所有layer
 		for (Layer* layer : m_layers)
 		{
+			layer->OnDetach();
 			delete layer;
 		}
 	}
