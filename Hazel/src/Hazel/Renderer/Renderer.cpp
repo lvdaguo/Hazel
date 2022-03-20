@@ -1,6 +1,7 @@
 #include "hzpch.h"
 #include "Renderer.h"
 
+#include "Renderer2D.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 
 namespace Hazel {
@@ -9,6 +10,7 @@ namespace Hazel {
 	void Renderer::Init()
 	{
 		RenderCommand::Init();
+		Renderer2D::Init();
 	}
 
 	void Renderer::OnWindowReisze(unsigned int width, unsigned int height)
