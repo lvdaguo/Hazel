@@ -29,8 +29,8 @@ namespace Hazel {
 
 	void LayerStack::PopLayer(Layer* layer)
 	{
-		auto it = std::find(m_layers.begin() + m_layerInsertIndex, m_layers.end(), layer);
-		if (it != m_layers.end())
+		auto it = std::find(m_layers.begin(), m_layers.begin() + m_layerInsertIndex, layer);
+		if (it != m_layers.begin() + m_layerInsertIndex)
 		{
 			layer->OnDetach();
 			m_layers.erase(it);

@@ -53,18 +53,17 @@ namespace Hazel {
 		glBindVertexArray(m_rendererID);
 		vertexBuffer->Bind();
 
-		unsigned int index = 0;
 		const BufferLayout& layout = vertexBuffer->GetLayout();
 		for (const BufferElement& element : layout)
 		{
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index,
+			glEnableVertexAttribArray(m_vertexBufferIndex);
+			glVertexAttribPointer(m_vertexBufferIndex,
 				element.GetComponentCount(),
 				ShaderDataTypeToOpenGLBaseType(element.Type),
 				element.Normalized ? GL_TRUE : GL_FALSE,
 				layout.GetStride(),
-				(const void*)element.Offset);
-			index++;
+				(const void*)(intptr_t)element.Offset);
+			m_vertexBufferIndex++;
 		}
 
 		m_vertexBuffers.push_back(vertexBuffer);

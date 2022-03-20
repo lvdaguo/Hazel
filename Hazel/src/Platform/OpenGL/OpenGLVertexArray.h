@@ -20,6 +20,7 @@ namespace Hazel {
 	
 	private:
 		unsigned int m_rendererID;
+		unsigned int m_vertexBufferIndex = 0;
 		std::vector<std::shared_ptr<VertexBuffer>> m_vertexBuffers;
 		std::shared_ptr<IndexBuffer> m_indexBuffer;
 	};
