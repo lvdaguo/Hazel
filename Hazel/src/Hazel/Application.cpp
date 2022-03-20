@@ -43,6 +43,7 @@ namespace Hazel {
 		// 响应窗口关闭事件
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::OnWindowResize));
 
 		// 传递事件给layers
 		for (auto it = m_layerStack.end(); it != m_layerStack.begin();)
@@ -63,9 +64,12 @@ namespace Hazel {
 			Timestep timestep = time - m_lastFrameTime;
 			m_lastFrameTime = time;
 
-			for (Layer* layer : m_layerStack)
+			if (m_minimized == false)
 			{
-				layer->OnUpdate(timestep);
+				for (Layer* layer : m_layerStack)
+				{
+					layer->OnUpdate(timestep);
+				}
 			}
 
 			m_imguiLayer->Begin();
@@ -83,5 +87,19 @@ namespace Hazel {
 	{
 		m_running = false;
 		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& e)
+	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		{
+			m_minimized = true;
+			return false;
+		}
+
+		m_minimized = false;
+		Renderer::OnWindowReisze(e.GetWidth(), e.GetHeight());
+
+		return false;
 	}
 }
