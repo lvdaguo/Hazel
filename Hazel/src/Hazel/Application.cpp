@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "Hazel/Events/ApplicationEvent.h"
 
+#include "Hazel/Renderer/Renderer.h"
+
 #include <GLFW/glfw3.h>
 
 namespace Hazel {
@@ -18,6 +20,8 @@ namespace Hazel {
 		// 接收窗口发送的事件
 		m_window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
 	
+		Renderer::Init();
+
 		m_imguiLayer = new ImGuiLayer();
 		PushOverlay(m_imguiLayer);
 	}

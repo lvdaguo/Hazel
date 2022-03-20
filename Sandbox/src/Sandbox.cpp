@@ -159,6 +159,7 @@ public:
 		m_TextureShader.reset(Hazel::Shader::Create(textureShaderVertexSrc, textureShaderFragmentSrc));
 
 		m_texture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
+		m_transparent = Hazel::Texture2D::Create("assets/textures/window.png");
 
 		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->Bind();
 		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
@@ -209,6 +210,9 @@ public:
 		m_texture->Bind(0);
 		Hazel::Renderer::Submit(m_TextureShader, m_squareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
+		m_transparent->Bind(0);
+		Hazel::Renderer::Submit(m_TextureShader, m_squareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
 		Hazel::Renderer::EndScene();
 	}
 
@@ -230,7 +234,7 @@ private:
 	Hazel::Ref<Hazel::Shader> m_flatColorShader, m_TextureShader;
 	Hazel::Ref<Hazel::VertexArray> m_squareVA;
 
-	Hazel::Ref<Hazel::Texture2D> m_texture;
+	Hazel::Ref<Hazel::Texture2D> m_texture, m_transparent;
 
 	Hazel::OrthographicCamera m_camera;
 	glm::vec3 m_cameraPosition; 
