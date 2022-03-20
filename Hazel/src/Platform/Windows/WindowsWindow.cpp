@@ -9,6 +9,8 @@
 
 namespace Hazel {
 
+	static unsigned int s_GLFWWindowCount = 0;
+
 	static void GLFWErrorCallback(int error, const char* description)
 	{
 		HZ_CORE_ERROR("GLFW Error ({0): {1}", error, description);
@@ -53,7 +55,8 @@ namespace Hazel {
 
 		// Create Window
 		m_window = glfwCreateWindow(int(props.Width), int(props.Height), m_data.Title.c_str(), nullptr, nullptr);
-		
+		++s_GLFWWindowCount;
+
 		m_context = CreateScope<OpenGLContext>(m_window);
 		m_context->Init();
 
@@ -149,6 +152,12 @@ namespace Hazel {
 	void WindowsWindow::ShutDown()
 	{
 		glfwDestroyWindow(m_window);
+
+		if (--s_GLFWWindowCount == 0)
+		{
+			HZ_CORE_INFO("Terminating GLFW");
+			glfwTerminate();
+		}
 	}
 
 	void WindowsWindow::OnUpdate()
