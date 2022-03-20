@@ -1,4 +1,5 @@
 #include <Hazel.h>
+#include <Hazel/Core/EntryPoint.h>
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
@@ -6,13 +7,15 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui/imgui.h>
 
+#include "Sandbox2D.h"
+
 class ExampleLayer : public Hazel::Layer
 {
 public:
 	ExampleLayer()
 		: Layer("Example"), m_cameraController(1280.0f / 720.0f)
 	{
-		m_vertexArray.reset(Hazel::VertexArray::Create());
+		m_vertexArray = Hazel::VertexArray::Create();
 
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
@@ -37,7 +40,7 @@ public:
 
 		m_vertexArray->SetIndexBuffer(indexBuffer);
 
-		m_squareVA.reset(Hazel::VertexArray::Create());
+		m_squareVA = Hazel::VertexArray::Create();
 		float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
 			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
@@ -59,6 +62,7 @@ public:
 		squareIB.reset(Hazel::IndexBuffer::Create(squareIndices, 6));
 		m_squareVA->SetIndexBuffer(squareIB);
 
+		/*
 		std::string vertexSrc = R"(
 			#version 330 core
 			
@@ -95,7 +99,8 @@ public:
 		)";
 		
 		m_shader = Hazel::Shader::Create("shader", vertexSrc, fragmentSrc);
-		
+		*/
+
 		std::string flatColorShaderVertexSrc = R"(
 			#version 330 core
 			
@@ -205,7 +210,8 @@ class Sandbox : public Hazel::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new ExampleLayer());
+		//PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 	~Sandbox() = default;
 };

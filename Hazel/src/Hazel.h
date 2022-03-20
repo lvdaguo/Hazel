@@ -27,7 +27,7 @@
 // -------------------
 
 // --- Entry Point ---
-#include "Hazel/Core/EntryPoint.h"
+//#include "Hazel/Core/EntryPoint.h"
 // -------------------
 
 // EntryPoint头文件为一段main函数，被用户程序包含后，作为程序的入口
