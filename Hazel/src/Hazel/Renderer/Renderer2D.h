@@ -6,7 +6,7 @@
 
 namespace Hazel {
 
-	class HAZEL_API Renderer2D
+	class Renderer2D
 	{
 	public:
 		static void Init();

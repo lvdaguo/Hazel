@@ -13,7 +13,7 @@
 // Application为单例，其持有的窗口对象也只有一个实例
 
 namespace Hazel {
-	class HAZEL_API Application
+	class Application
 	{
 	public:
 		Application();

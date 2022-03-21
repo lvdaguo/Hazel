@@ -3,7 +3,7 @@
 #include "Hazel/Renderer/VertexArray.h"
 
 namespace Hazel {
-	class HAZEL_API OpenGLVertexArray : public VertexArray
+	class OpenGLVertexArray : public VertexArray
 	{
 	public:
 		OpenGLVertexArray();

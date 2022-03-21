@@ -7,7 +7,7 @@
 #include "Shader.h"
 
 namespace Hazel {
-	class HAZEL_API Renderer
+	class Renderer
 	{
 	public:
 		static void Init();

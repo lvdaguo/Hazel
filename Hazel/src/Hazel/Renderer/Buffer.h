@@ -33,7 +33,7 @@ namespace Hazel {
 		return 0;
 	}
 
-	struct HAZEL_API BufferElement
+	struct BufferElement
 	{
 		std::string Name;
 		ShaderDataType Type;
@@ -67,7 +67,7 @@ namespace Hazel {
 		}
 	};
 
-	class HAZEL_API BufferLayout
+	class BufferLayout
 	{
 	public:
 		BufferLayout() { }
@@ -102,7 +102,7 @@ namespace Hazel {
 		unsigned int m_stride = 0;
 	};
 
-	class HAZEL_API VertexBuffer
+	class VertexBuffer
 	{
 	public:
 		virtual ~VertexBuffer() { }
@@ -116,7 +116,7 @@ namespace Hazel {
 		static VertexBuffer* Create(float* vertices, unsigned int size);
 	};
 
-	class HAZEL_API IndexBuffer
+	class IndexBuffer
 	{
 	public:
 		virtual ~IndexBuffer() { }

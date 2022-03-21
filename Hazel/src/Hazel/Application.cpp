@@ -27,7 +27,10 @@ namespace Hazel {
 		PushOverlay(m_imguiLayer);
 	}
 
-	Application::~Application() { }
+	Application::~Application()
+	{
+		//Renderer::ShutDown();
+	}
 
 	void Application::PushLayer(Layer* layer)
 	{

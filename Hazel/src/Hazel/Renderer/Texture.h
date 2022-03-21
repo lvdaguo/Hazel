@@ -4,7 +4,7 @@
 
 namespace Hazel {
 
-	class HAZEL_API Texture
+	class Texture
 	{
 	public:
 		virtual ~Texture() { }

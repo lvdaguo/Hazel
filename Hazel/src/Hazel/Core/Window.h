@@ -17,7 +17,7 @@ namespace Hazel {
 	};
 
 	// Window接口定义，根据不同操作系统选择不同的Window实现
-	class HAZEL_API Window
+	class Window
 	{
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;

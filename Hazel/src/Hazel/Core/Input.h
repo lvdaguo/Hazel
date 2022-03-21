@@ -7,7 +7,7 @@ namespace Hazel {
 	/// 静态类，轮询输入
 	/// 内部实现为单例
 	/// </summary>
-	class HAZEL_API Input
+	class Input
 	{
 	protected:
 		Input() = default;

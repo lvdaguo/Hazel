@@ -5,7 +5,7 @@
 #include "VertexArray.h"
 
 namespace Hazel {
-	class HAZEL_API RendererAPI
+	class RendererAPI
 	{
 	public:
 		enum class API

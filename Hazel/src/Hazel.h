@@ -2,6 +2,8 @@
 
 // For use by Hazel applications
 
+#include "Hazel/Core/Core.h"
+
 #include "Hazel/Application.h"
 #include "Hazel/Core/Log.h"
 
