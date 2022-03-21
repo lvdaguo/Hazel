@@ -18,9 +18,9 @@ namespace Hazel {
 
 	// 子类中实现父类的静态方法
 	// 当前Windows窗口为具体创建的窗口
-	Window* Window::Create(const WindowProps& props)
+	Scope<Window> Window::Create(const WindowProps& props)
 	{
-		return new WindowsWindow(props);
+		return CreateScope<WindowsWindow>(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
@@ -57,7 +57,7 @@ namespace Hazel {
 		m_window = glfwCreateWindow(int(props.Width), int(props.Height), m_data.Title.c_str(), nullptr, nullptr);
 		++s_GLFWWindowCount;
 
-		m_context = CreateScope<OpenGLContext>(m_window);
+		m_context = GraphicsContext::Create(m_window);
 		m_context->Init();
 
 		glfwSetWindowUserPointer(m_window, &m_data);

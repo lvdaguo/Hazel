@@ -113,7 +113,7 @@ namespace Hazel {
 		virtual const BufferLayout& GetLayout() const = 0;
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 
-		static VertexBuffer* Create(float* vertices, unsigned int size);
+		static Ref<VertexBuffer> Create(float* vertices, unsigned int size);
 	};
 
 	class IndexBuffer
@@ -125,6 +125,6 @@ namespace Hazel {
 		virtual void Unbind() const = 0;
 
 		virtual unsigned int GetCount() const = 0;
-		static IndexBuffer* Create(unsigned int* indices, unsigned int count);
+		static Ref<IndexBuffer> Create(unsigned int* indices, unsigned int count);
 	};
 }

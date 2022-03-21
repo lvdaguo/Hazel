@@ -9,7 +9,7 @@
 
 namespace Hazel {
 
-	Application* Application::s_instance = nullptr;
+	Application* Application::s_instance;
 
 	Application::Application()
 	{
