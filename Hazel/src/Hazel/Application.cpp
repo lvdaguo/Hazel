@@ -62,13 +62,11 @@ namespace Hazel {
 		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::OnWindowResize));
 
 		// 传递事件给layers
-		for (auto it = m_layerStack.end(); it != m_layerStack.begin();)
+		for (auto it = m_layerStack.rbegin(); it != m_layerStack.rend(); ++it)
 		{
-			(*--it)->OnEvent(e);
+			(*it)->OnEvent(e);
 			if (e.IsHandled())
-			{
 				break;
-			}
 		}
 	}
 
