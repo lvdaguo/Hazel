@@ -41,6 +41,7 @@ bld/
 # self
 bin/
 bin-int/
+*.log
 
 
 # Visual Studio 2017 auto generated files
