@@ -12,14 +12,14 @@
 
 // Application为单例，其持有的窗口对象也只有一个实例
 
+int main(int argc, char** argv);
+
 namespace Hazel {
 	class Application
 	{
 	public:
 		Application();
 		virtual ~Application();
-
-		void Run();
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
@@ -28,6 +28,8 @@ namespace Hazel {
 		inline static Application& Get() { return *s_instance; }
 
 	private:
+		void Run();
+
 		void OnEvent(Event& e);
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
@@ -43,6 +45,8 @@ namespace Hazel {
 		float m_lastFrameTime = 0.0f;
 
 		static Application* s_instance;
+
+		friend int ::main(int argc, char** argv);
 	};
 
 	Application* CreateApplication();

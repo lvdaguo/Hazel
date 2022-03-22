@@ -19,13 +19,6 @@ namespace Hazel {
 		HZ_CORE_ERROR("GLFW Error ({0): {1}", error, description);
 	}
 
-	// 子类中实现父类的静态方法
-	// 当前Windows窗口为具体创建的窗口
-	Scope<Window> Window::Create(const WindowProps& props)
-	{
-		return CreateScope<WindowsWindow>(props);
-	}
-
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
 		HZ_PROFILE_FUNCTION();
