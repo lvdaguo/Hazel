@@ -64,6 +64,10 @@
 
 namespace Hazel {
 
+	// 智能指针
+	// Scope 单独使用的资源
+	// Ref 引用计数的共享资源
+
 	template<typename T>
 	using Scope = std::unique_ptr<T>;
 
