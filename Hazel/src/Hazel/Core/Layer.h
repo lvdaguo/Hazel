@@ -17,7 +17,7 @@ namespace Hazel {
 		virtual void OnImGuiRender() { }
 		virtual void OnEvent(Event& event) { }
 
-		inline const std::string& GetName() const { return m_debugName; }
+		const std::string& GetName() const { return m_debugName; }
 
 	private:
 		std::string m_debugName;

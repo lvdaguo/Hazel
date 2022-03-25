@@ -137,7 +137,7 @@ namespace Hazel
 		Menu			= 348
 	} Key;
 
-	inline std::ostream& operator<<(std::ostream& os, KeyCode keyCode)
+	std::ostream& operator<<(std::ostream& os, KeyCode keyCode)
 	{
 		os << static_cast<int32_t>(keyCode);
 		return os;

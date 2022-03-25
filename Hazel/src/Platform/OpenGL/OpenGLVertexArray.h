@@ -15,8 +15,8 @@ namespace Hazel {
 		virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer);
 		virtual void SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer);
 
-		inline virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() const { return m_vertexBuffers; }
-		inline virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const { return m_indexBuffer; }
+		virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() const { return m_vertexBuffers; }
+		virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const { return m_indexBuffer; }
 	
 	private:
 		unsigned int m_rendererID;

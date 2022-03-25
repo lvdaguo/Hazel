@@ -7,27 +7,27 @@ namespace Hazel {
 	class RenderCommand
 	{
 	public:
-		inline static void Init()
+		static void Init()
 		{
 			s_rendererAPI->Init();
 		}
 
-		inline static void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
+		static void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
 		{
 			s_rendererAPI->SetViewport(x, y, width, height);
 		}
 
-		inline static void SetClearColor(const glm::vec4& color)
+		static void SetClearColor(const glm::vec4& color)
 		{
 			s_rendererAPI->SetClearColor(color);
 		}
 
-		inline static void Clear()
+		static void Clear()
 		{
 			s_rendererAPI->Clear();
 		}
 
-		inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, unsigned int count = 0)
+		static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, unsigned int count = 0)
 		{
 			s_rendererAPI->DrawIndexed(vertexArray, count);
 		}

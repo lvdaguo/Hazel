@@ -33,7 +33,7 @@ namespace Hazel {
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
 	
-		inline virtual unsigned int GetCount() const override { return m_count; }
+		virtual unsigned int GetCount() const override { return m_count; }
 
 	private:
 		unsigned int m_rendererID;

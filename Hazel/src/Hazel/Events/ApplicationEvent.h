@@ -9,8 +9,8 @@ namespace Hazel {
 		WindowResizeEvent(unsigned int width, unsigned int height)
 			: m_width(width), m_height(height) { }
 
-		inline unsigned int GetWidth() const { return m_width; }
-		inline unsigned int GetHeight() const { return m_height; }
+		unsigned int GetWidth() const { return m_width; }
+		unsigned int GetHeight() const { return m_height; }
 
 		std::string ToString() const override
 		{

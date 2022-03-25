@@ -14,8 +14,8 @@ namespace Hazel {
 
 		void OnUpdate() override;
 
-		inline unsigned int GetWidth() const override { return m_data.Width; }
-		inline unsigned int GetHeight() const override { return m_data.Height; }
+		unsigned int GetWidth() const override { return m_data.Width; }
+		unsigned int GetHeight() const override { return m_data.Height; }
 
 		// 订阅Window发送的事件的接口
 		inline void SetEventCallback(const EventCallbackFn& callback) override { m_data.EventCallback = callback; }
@@ -23,7 +23,7 @@ namespace Hazel {
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
-		inline virtual void* GetNativeWindow() const { return m_window; }
+		virtual void* GetNativeWindow() const { return m_window; }
 
 	private:
 		virtual void Init(const WindowProps& props);
