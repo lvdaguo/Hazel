@@ -14,7 +14,8 @@ namespace Hazel {
 		glm::vec3 Position;
 		glm::vec4 Color;
 		glm::vec2 TexCoord;
-		// TODO: texid
+		float TexIndex;
+		float TilingFactor;
 	};
 
 	struct Renderer2DData
@@ -22,6 +23,7 @@ namespace Hazel {
 		const unsigned int MaxQuads = 10000;
 		const unsigned int MaxVertices = MaxQuads * 4;
 		const unsigned int MaxIndices = MaxQuads * 6;
+		static const unsigned int MaxTextureSlots = 32; // TODO: RenderCaps
 
 		Ref<VertexArray> QuadVertexArray;
 		Ref<VertexBuffer> QuadVertexBuffer;
@@ -31,6 +33,9 @@ namespace Hazel {
 		unsigned int QuadIndexCount = 0;
 		QuadVertex* QuadVertexBufferBase = nullptr;
 		QuadVertex* QuadVertexBufferPtr = nullptr;
+
+		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
+		unsigned int TextureSlotIndex = 1; // 0 = white texture
 	};
 
 	static Renderer2DData s_data;
@@ -45,7 +50,9 @@ namespace Hazel {
 		s_data.QuadVertexBuffer->SetLayout({
 			{ ShaderDataType::Float3, "a_Position"},
 			{ ShaderDataType::Float4, "a_Color"},
-			{ ShaderDataType::Float2, "a_TexCoord"}
+			{ ShaderDataType::Float2, "a_TexCoord"},
+			{ ShaderDataType::Float,  "a_TexIndex" },
+			{ ShaderDataType::Float,  "a_TilingFactor"}
 		});
 
 		s_data.QuadVertexArray->AddVertexBuffer(s_data.QuadVertexBuffer);
@@ -76,15 +83,21 @@ namespace Hazel {
 		unsigned int whiteTextureData = 0xffffffff;
 		s_data.WhiteTexture->SetData(&whiteTextureData, sizeof(unsigned int));
 
+		int samplers[s_data.MaxTextureSlots];
+		for (unsigned int i = 0; i < s_data.MaxTextureSlots; i++)
+			samplers[i] = i;
+
 		s_data.TextureShader = Shader::Create("assets/shaders/Texture.glsl");
 		s_data.TextureShader->Bind();
-		s_data.TextureShader->SetInt("u_Texture", 0);
+		s_data.TextureShader->SetIntArray("u_Textures", samplers, s_data.MaxTextureSlots);
+	
+		// Set all textures slots to 0
+		s_data.TextureSlots[0] = s_data.WhiteTexture;
 	}
 
 	void Renderer2D::Shutdown()
 	{
 		HZ_PROFILE_FUNCTION();
-
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
@@ -96,6 +109,8 @@ namespace Hazel {
 
 		s_data.QuadIndexCount = 0;
 		s_data.QuadVertexBufferPtr = s_data.QuadVertexBufferBase;
+
+		s_data.TextureSlotIndex = 1;
 	}
 
 	void Renderer2D::EndScene()
@@ -110,6 +125,10 @@ namespace Hazel {
 
 	void Renderer2D::Flush()
 	{
+		// Bind textures
+		for (unsigned int i = 0; i < s_data.TextureSlotIndex; ++i)
+			s_data.TextureSlots[i]->Bind(i);
+
 		RenderCommand::DrawIndexed(s_data.QuadVertexArray, s_data.QuadIndexCount);
 	}
 
@@ -122,24 +141,35 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
+		const float texIndex = 0.0f; // White Texture
+		const float tilingFactor = 1.0f;
+
 		s_data.QuadVertexBufferPtr->Position = position;
 		s_data.QuadVertexBufferPtr->Color = color;
 		s_data.QuadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
+		s_data.QuadVertexBufferPtr->TexIndex = texIndex;
+		s_data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_data.QuadVertexBufferPtr++;
 
 		s_data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, 0.0f };
 		s_data.QuadVertexBufferPtr->Color = color;
 		s_data.QuadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
+		s_data.QuadVertexBufferPtr->TexIndex = texIndex;
+		s_data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_data.QuadVertexBufferPtr++;
 
 		s_data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y + size.y, 0.0f };
 		s_data.QuadVertexBufferPtr->Color = color;
 		s_data.QuadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
+		s_data.QuadVertexBufferPtr->TexIndex = texIndex;
+		s_data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_data.QuadVertexBufferPtr++;
 
 		s_data.QuadVertexBufferPtr->Position = { position.x , position.y + size.y, 0.0f };
 		s_data.QuadVertexBufferPtr->Color = color;
 		s_data.QuadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
+		s_data.QuadVertexBufferPtr->TexIndex = texIndex;
+		s_data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
 		s_data.QuadVertexBufferPtr++;
 
 		s_data.QuadIndexCount += 6;
@@ -154,6 +184,56 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
+		constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+		float textureIndex = 0.0f;
+		for (unsigned int i = 1; i < s_data.TextureSlotIndex; i++)
+		{
+			if (*s_data.TextureSlots[i].get() == *texture.get())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			textureIndex = (float)s_data.TextureSlotIndex;
+			s_data.TextureSlots[s_data.TextureSlotIndex] = texture;
+			s_data.TextureSlotIndex++;
+		}
+
+		s_data.QuadVertexBufferPtr->Position = position;
+		s_data.QuadVertexBufferPtr->Color = color;
+		s_data.QuadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
+		s_data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_data.QuadVertexBufferPtr++;
+
+		s_data.QuadVertexBufferPtr->Position = { position.x + size.x, position.y, 0.0f };
+		s_data.QuadVertexBufferPtr->Color = color;
+		s_data.QuadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
+		s_data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_data.QuadVertexBufferPtr++;
+
+		s_data.QuadVertexBufferPtr->Position = { position.x + size.y, position.y + size.y, 0.0f };
+		s_data.QuadVertexBufferPtr->Color = color;
+		s_data.QuadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
+		s_data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_data.QuadVertexBufferPtr++;
+
+		s_data.QuadVertexBufferPtr->Position = { position.x, position.y + size.y , 0.0f };
+		s_data.QuadVertexBufferPtr->Color = color;
+		s_data.QuadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
+		s_data.QuadVertexBufferPtr->TexIndex = textureIndex;
+		s_data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+		s_data.QuadVertexBufferPtr++;
+
+		s_data.QuadIndexCount += 6;
+
+#if OLD_PATH
 		s_data.TextureShader->SetFloat4("u_Color", tintColor);
 		s_data.TextureShader->SetFloat("u_TilingFactor", tilingFactor);
 		texture->Bind();
@@ -163,6 +243,7 @@ namespace Hazel {
 
 		s_data.QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_data.QuadVertexArray);
+#endif
 	}
 
 

@@ -20,6 +20,11 @@ namespace Hazel {
 
 		virtual void Bind(unsigned int slot = 0) const override;
 
+		virtual bool operator == (const Texture& other) const override
+		{
+			return m_rendererID == ((OpenGLTexture2D&)other).m_rendererID;
+		}
+
 	private:
 		std::stringbuf m_path;
 		unsigned int m_width, m_height;
