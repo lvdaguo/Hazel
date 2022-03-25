@@ -64,9 +64,9 @@ namespace Hazel {
 		// 传递事件给layers
 		for (auto it = m_layerStack.rbegin(); it != m_layerStack.rend(); ++it)
 		{
-			(*it)->OnEvent(e);
 			if (e.IsHandled())
 				break;
+			(*it)->OnEvent(e);
 		}
 	}
 

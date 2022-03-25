@@ -66,14 +66,49 @@ namespace Hazel {
 		const BufferLayout& layout = vertexBuffer->GetLayout();
 		for (const BufferElement& element : layout)
 		{
-			glEnableVertexAttribArray(m_vertexBufferIndex);
-			glVertexAttribPointer(m_vertexBufferIndex,
-				element.GetComponentCount(),
-				ShaderDataTypeToOpenGLBaseType(element.Type),
-				element.Normalized ? GL_TRUE : GL_FALSE,
-				layout.GetStride(),
-				(const void*)element.Offset);
-			m_vertexBufferIndex++;
+			switch (element.Type)
+			{
+			case ShaderDataType::Float:
+			case ShaderDataType::Float2:
+			case ShaderDataType::Float3:
+			case ShaderDataType::Float4:
+			case ShaderDataType::Int:
+			case ShaderDataType::Int2:
+			case ShaderDataType::Int3:
+			case ShaderDataType::Int4:
+			case ShaderDataType::Bool:
+			{
+				glEnableVertexAttribArray(m_vertexBufferIndex);
+				glVertexAttribPointer(m_vertexBufferIndex,
+					element.GetComponentCount(),
+					ShaderDataTypeToOpenGLBaseType(element.Type),
+					element.Normalized ? GL_TRUE : GL_FALSE,
+					layout.GetStride(),
+					(const void*)element.Offset);
+				m_vertexBufferIndex++;
+				break;
+			}
+			case ShaderDataType::Mat3:
+			case ShaderDataType::Mat4:
+			{
+				uint8_t count = element.GetComponentCount();
+				for (uint8_t i = 0; i < count; i++)
+				{
+					glEnableVertexAttribArray(m_vertexBufferIndex);
+					glVertexAttribPointer(m_vertexBufferIndex,
+						count,
+						ShaderDataTypeToOpenGLBaseType(element.Type),
+						element.Normalized ? GL_TRUE : GL_FALSE,
+						layout.GetStride(),
+						(const void*)(sizeof(float) * count * i));
+					glVertexAttribDivisor(m_vertexBufferIndex, 1);
+					m_vertexBufferIndex++;
+				}
+				break;
+			}
+			default:
+				HZ_CORE_ASSERT(false, "Unknown ShaderDataType!");
+			}
 		}
 
 		m_vertexBuffers.push_back(vertexBuffer);
