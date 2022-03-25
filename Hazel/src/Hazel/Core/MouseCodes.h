@@ -20,7 +20,7 @@ namespace Hazel
 		ButtonMiddle		= Button2
 	} Mouse;
 
-	std::ostream& operator<<(std::ostream& os, MouseCode mouseCode)
+	inline std::ostream& operator<<(std::ostream& os, MouseCode mouseCode)
 	{
 		os << static_cast<int32_t>(mouseCode);
 		return os;
