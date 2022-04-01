@@ -11,31 +11,38 @@ namespace Hazel {
 	/// </summary>
 	class Input
 	{
-	protected:
-		Input() = default;
-		virtual ~Input() = default;
-
 	public:
-		Input(const Input&) = delete;
-		Input& operator=(const Input&) = delete;
+		static bool IsKeyPressed(KeyCode key);
+		static bool IsMouseButtonPressed(MouseCode button);
+		static std::pair<float, float> GetMousePosition();
+		static float GetMouseX();
+		static float GetMouseY();
 
-		static bool IsKeyPressed(KeyCode keycode) { return s_instance->IsKeyPressedImpl(keycode); }
-		static bool IsMouseButtonPressed(MouseCode button) { return s_instance->IsMouseButtonPressedImpl(button); }
-		static std::pair<float, float> GetMousePosition() { return s_instance->GetMousePositionImpl(); }
-		static float GetMouseX() { return s_instance->GetMouseXImpl(); }
-		static float GetMouseY() { return s_instance->GetMouseYImpl(); }
+	//protected:
+	//	Input() = default;
+	//	virtual ~Input() = default;
 
-	protected:
-		virtual bool IsKeyPressedImpl(KeyCode keycode) = 0;
-		virtual bool IsMouseButtonPressedImpl(MouseCode button) = 0;
-		virtual std::pair<float, float> GetMousePositionImpl() = 0;
-		virtual float GetMouseXImpl() = 0;
-		virtual float GetMouseYImpl() = 0;
+	//public:
+	//	Input(const Input&) = delete;
+	//	Input& operator=(const Input&) = delete;
 
-		static Scope<Input> Create();
+	//	static bool IsKeyPressed(KeyCode keycode) { return s_instance->IsKeyPressedImpl(keycode); }
+	//	static bool IsMouseButtonPressed(MouseCode button) { return s_instance->IsMouseButtonPressedImpl(button); }
+	//	static std::pair<float, float> GetMousePosition() { return s_instance->GetMousePositionImpl(); }
+	//	static float GetMouseX() { return s_instance->GetMouseXImpl(); }
+	//	static float GetMouseY() { return s_instance->GetMouseYImpl(); }
 
-	private:
-		static Scope<Input> s_instance;
+	//protected:
+	//	virtual bool IsKeyPressedImpl(KeyCode keycode) = 0;
+	//	virtual bool IsMouseButtonPressedImpl(MouseCode button) = 0;
+	//	virtual std::pair<float, float> GetMousePositionImpl() = 0;
+	//	virtual float GetMouseXImpl() = 0;
+	//	virtual float GetMouseYImpl() = 0;
+
+	//	static Scope<Input> Create();
+
+	//private:
+	//	static Scope<Input> s_instance;
 	};
 
 }
