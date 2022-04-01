@@ -13,6 +13,7 @@ namespace Hazel {
 	{
 	protected:
 		Input() = default;
+		virtual ~Input() = default;
 
 	public:
 		Input(const Input&) = delete;
