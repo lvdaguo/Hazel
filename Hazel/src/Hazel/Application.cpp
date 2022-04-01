@@ -11,14 +11,14 @@ namespace Hazel {
 
 	Application* Application::s_instance;
 
-	Application::Application()
+	Application::Application(const std::string& name)
 	{
 		HZ_PROFILE_FUNCTION();
 
 		HZ_CORE_ASSERT(!s_instance, "Application already exists!");
 		s_instance = this;
 
-		m_window = std::unique_ptr<Window>(Window::Create());
+		m_window = std::unique_ptr<Window>(Window::Create(WindowProps(name)));
 
 		// 接收窗口发送的事件
 		m_window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
