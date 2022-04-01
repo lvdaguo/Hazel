@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HZ_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Hazel\vendor\spdlog\include;..\Hazel\src;..\Hazel\vendor;..\Hazel\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Hazel\vendor\spdlog\include;..\Hazel\src;..\Hazel\vendor;..\Hazel\vendor\glm;..\Hazel\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -97,7 +97,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HZ_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Hazel\vendor\spdlog\include;..\Hazel\src;..\Hazel\vendor;..\Hazel\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Hazel\vendor\spdlog\include;..\Hazel\src;..\Hazel\vendor;..\Hazel\vendor\glm;..\Hazel\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -115,7 +115,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HZ_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Hazel\vendor\spdlog\include;..\Hazel\src;..\Hazel\vendor;..\Hazel\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Hazel\vendor\spdlog\include;..\Hazel\src;..\Hazel\vendor;..\Hazel\vendor\glm;..\Hazel\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -129,22 +129,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hazel\Hazel.vcxproj">
-      <Project>{99294D0D-053E-75BE-CEBF-181E3A9371EF}</Project>
-    </ProjectReference>
+    <ClInclude Include="src\EditorLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EditorLayer.cpp" />
     <ClCompile Include="src\HazelEditorApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\EditorLayer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Hazel.log" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="imgui.ini" />
+    <ProjectReference Include="..\Hazel\Hazel.vcxproj">
+      <Project>{99294D0D-053E-75BE-CEBF-181E3A9371EF}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

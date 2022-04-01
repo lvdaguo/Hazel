@@ -24,6 +24,9 @@ namespace Hazel {
 		Ref<Shader> m_flatColorShader;
 		Ref<Framebuffer> m_framebuffer;
 
+		Ref<Scene> m_activeScene;
+		entt::entity m_squareEntity;
+
 		Ref<Texture2D> m_checkerboardTexture;
 
 		bool m_viewportFocused = false, m_viewportHovered = false;

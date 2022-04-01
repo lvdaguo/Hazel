@@ -14,12 +14,20 @@ namespace Hazel {
 	{
 		HZ_PROFILE_FUNCTION();
 
-		m_checkerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
+		m_checkerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 
-		Hazel::FramebufferSpecification fbSpec;
+		FramebufferSpecification fbSpec;
 		fbSpec.Width = 1280;
 		fbSpec.Height = 720;
-		m_framebuffer = Hazel::Framebuffer::Create(fbSpec);
+		m_framebuffer = Framebuffer::Create(fbSpec);
+
+		m_activeScene = CreateRef<Scene>();
+
+		auto square = m_activeScene->CreateEntity();
+		m_activeScene->Reg().emplace<TransformComponent>(square);
+		m_activeScene->Reg().emplace<SpriteRendererComponent>(square, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+		
+		m_squareEntity = square;
 	}
 
 	void EditorLayer::OnDetach()
@@ -45,39 +53,16 @@ namespace Hazel {
 			m_cameraController.OnUpdate(ts);
 
 		// Render
-		Hazel::Renderer2D::ResetStats();
-		{
-			HZ_PROFILE_SCOPE("Renderer Prep");
-			m_framebuffer->Bind();
-			Hazel::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-			Hazel::RenderCommand::Clear();
-		}
+		Renderer2D::ResetStats();
+		m_framebuffer->Bind();
+		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		RenderCommand::Clear();
 
-		{
-			static float rotation = 0.0f;
-			rotation += ts * 50.0f;
+		Renderer2D::BeginScene(m_cameraController.GetCamera());
 
-			HZ_PROFILE_SCOPE("Renderer Draw");
-			Hazel::Renderer2D::BeginScene(m_cameraController.GetCamera());
-			Hazel::Renderer2D::DrawRotatedQuad({ 1.0f, 0.0f }, { 0.8f, 0.8f }, -45.0f, { 0.8f, 0.2f, 0.3f, 1.0f });
-			Hazel::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-			Hazel::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, m_squareColor);
-			Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 20.0f, 20.0f }, m_checkerboardTexture, 10.0f);
-			Hazel::Renderer2D::DrawRotatedQuad({ -2.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, rotation, m_checkerboardTexture, 20.0f);
-			Hazel::Renderer2D::EndScene();
-
-			Hazel::Renderer2D::BeginScene(m_cameraController.GetCamera());
-			for (float y = -5.0f; y < 5.0f; y += 0.5f)
-			{
-				for (float x = -5.0f; x < 5.0f; x += 0.5f)
-				{
-					glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f };
-					Hazel::Renderer2D::DrawQuad({ x, y }, { 0.45f, 0.45f }, color);
-				}
-			}
-			Hazel::Renderer2D::EndScene();
-			m_framebuffer->Unbind();
-		}
+		m_activeScene->OnUpdate(ts);
+		Renderer2D::EndScene();
+		m_framebuffer->Unbind();
 	}
 
 	void EditorLayer::OnImGuiRender()
@@ -140,7 +125,7 @@ namespace Hazel {
 					// which we can't undo at the moment without finer window depth/z control.
 					//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
 
-					if (ImGui::MenuItem("Exit")) Hazel::Application::Get().Close();
+					if (ImGui::MenuItem("Exit")) Application::Get().Close();
 					ImGui::EndMenu();
 				}
 
@@ -149,13 +134,14 @@ namespace Hazel {
 
 			ImGui::Begin("Settings");
 
-			auto stats = Hazel::Renderer2D::GetStasts();
+			auto stats = Renderer2D::GetStasts();
 			ImGui::Text("Renderer2D Stats:");
 			ImGui::Text("Draw Calls: %d", stats.DrawCalls);
 			ImGui::Text("Quads: %d", stats.QuadCount);
 			ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 			ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
+			auto& squareColor = m_activeScene->Reg().get<SpriteRendererComponent>(m_squareEntity).Color;
 			ImGui::ColorEdit4("Square Color", glm::value_ptr(m_squareColor));
 			ImGui::End();
 
@@ -167,7 +153,12 @@ namespace Hazel {
 			Application::Get().GetImGuiLayer()->BlockEvents(!m_viewportFocused || !m_viewportHovered );
 
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-			m_viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+			
+			if (m_viewportSize != *((glm::vec2*)&viewportPanelSize) && viewportPanelSize.x > 0 && viewportPanelSize.y > 0)
+			{
+				m_framebuffer->Resize((unsigned int)viewportPanelSize.x, (unsigned int)viewportPanelSize.y);
+				m_viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+			}
 
 			unsigned int textureID = m_framebuffer->GetColorAttachmentRendererID();
 			ImGui::Image((void*)textureID, ImVec2{ m_viewportSize.x, m_viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
@@ -195,7 +186,7 @@ namespace Hazel {
 		}
 	}
 
-	void EditorLayer::OnEvent(Hazel::Event& e)
+	void EditorLayer::OnEvent(Event& e)
 	{
 		m_cameraController.OnEvent(e);
 	}
