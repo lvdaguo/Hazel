@@ -52,6 +52,11 @@ namespace Hazel {
 		overlay->OnAttach();
 	}
 
+	void Application::Close()
+	{
+		m_running = false;
+	}
+
 	void Application::OnEvent(Event& e)
 	{
 		HZ_PROFILE_FUNCTION();

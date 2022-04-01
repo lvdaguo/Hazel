@@ -16,6 +16,8 @@ namespace Hazel {
 		virtual unsigned int GetWidth() const override { return m_width; }
 		virtual unsigned int GetHeight() const override { return m_height; }
 
+		virtual unsigned int GetRendererID() const override { return m_rendererID; }
+
 		virtual void SetData(void* data, unsigned int size) override;
 
 		virtual void Bind(unsigned int slot = 0) const override;

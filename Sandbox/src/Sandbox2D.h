@@ -20,6 +20,7 @@ private:
 
 	Hazel::Ref<Hazel::VertexArray> m_squareVA;
 	Hazel::Ref<Hazel::Shader> m_flatColorShader;
+	Hazel::Ref<Hazel::Framebuffer> m_framebuffer;
 
 	Hazel::Ref<Hazel::Texture2D> m_checkerboardTexture;
 
