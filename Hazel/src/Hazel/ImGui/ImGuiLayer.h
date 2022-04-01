@@ -20,8 +20,10 @@ namespace Hazel {
 
 		void Begin();
 		void End();
+		void BlockEvents(bool block) { m_blockEvents = block; }
 
-	private:
+ 	private:
+		bool m_blockEvents = true;
 		float m_time = 0.0f;
 	};
 
