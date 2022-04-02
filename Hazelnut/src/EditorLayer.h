@@ -26,6 +26,10 @@ namespace Hazel {
 
 		Ref<Scene> m_activeScene;
 		Entity m_squareEntity;
+		Entity m_cameraEntity;
+		Entity m_secondCamera;
+
+		bool m_primaryCamera = true;
 
 		Ref<Texture2D> m_checkerboardTexture;
 
