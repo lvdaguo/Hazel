@@ -154,11 +154,7 @@ namespace Hazel {
 
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 			
-			if (m_viewportSize != *((glm::vec2*)&viewportPanelSize) && viewportPanelSize.x > 0 && viewportPanelSize.y > 0)
-			{
-				m_framebuffer->Resize((unsigned int)viewportPanelSize.x, (unsigned int)viewportPanelSize.y);
-				m_viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-			}
+			m_viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
 			unsigned int textureID = m_framebuffer->GetColorAttachmentRendererID();
 			ImGui::Image((void*)textureID, ImVec2{ m_viewportSize.x, m_viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
