@@ -25,7 +25,7 @@ namespace Hazel {
 		Ref<Framebuffer> m_framebuffer;
 
 		Ref<Scene> m_activeScene;
-		entt::entity m_squareEntity;
+		Entity m_squareEntity;
 
 		Ref<Texture2D> m_checkerboardTexture;
 
