@@ -40,10 +40,10 @@ namespace Hazel {
 			m_scene->m_registry.remove<T>(m_entityHandle);
 		}
 
-		operator bool() const { return (int)m_entityHandle != 0; }
+		operator bool() const { return m_entityHandle != entt::null; }
 
 	private:
-		entt::entity m_entityHandle{ 0 };
+		entt::entity m_entityHandle{ entt::null };
 		Scene* m_scene = nullptr;
 	};
 
